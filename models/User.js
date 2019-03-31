@@ -19,7 +19,7 @@ const UserSchema = new Schema({
     },
     date:{
         type:Date,
-        default:DataCue.now
+        default: Date.now
     }
 })
 
