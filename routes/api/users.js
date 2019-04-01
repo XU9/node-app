@@ -5,7 +5,8 @@ const User = require("../../models/User");
 const bcrypt = require("bcrypt");
 const jwt = require('jsonwebtoken');
 const gravatar = require('gravatar');
-const  keys = require("../../config/keys");
+const keys = require("../../config/keys");
+const passport = require("passport");
 
 router.get("/test", (req, res) => {
     res.json({
@@ -64,20 +65,33 @@ router.post("/login", (req, res) => {
             bcrypt.compare(password, user.password)
                 .then(isMatch => {
                     if (isMatch) {
-                        const rule={id:user.id,name:user.name};
-                        jwt.sign(rule,keys.secretOrKey,{expiresIn:3600},(err,token)=>{
-                            if(err) throw err;
+                        const rule = { id: user.id, name: user.name };
+                        jwt.sign(rule, keys.secretOrKey, { expiresIn: 3600 }, (err, token) => {
+                            if (err) throw err;
                             res.json({
-                                success:true,
-                                token:"mrwu"+token
+                                success: true,
+                                token: "Bearer " + token
                             })
                         })
                         // res.json({ msg: "success" });
-                    }else{
-                        return res.status(400).json({password:"密码错误"});
+                    } else {
+                        return res.status(400).json({ password: "密码错误" });
                     }
                 })
         })
 
 })
+
+// $router POST api/user/current
+// @desc return current user
+// access private
+router.get("/current", passport.authenticate("jwt", { session: false }), (req, res) => {
+    res.json({
+        id: req.user.id,
+        name: req.user.name,
+        email: req.user.email,
+        identity: req.user.identity
+    });
+})
+
 module.exports = router;
