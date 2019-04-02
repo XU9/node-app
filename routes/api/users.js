@@ -8,11 +8,11 @@ const gravatar = require('gravatar');
 const keys = require("../../config/keys");
 const passport = require("passport");
 
-// router.get("/test", (req, res) => {
-//     res.json({
-//         msg: "login ..."
-//     })
-// })
+router.get("/test", (req, res) => {
+    res.json({
+        msg: "login ..."
+    })
+})
 
 
 // $router POST api/user/register
