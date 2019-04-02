@@ -9,6 +9,10 @@ const app = express();
 // 引入user.js
 const users = require("./routes/api/users");
 
+// 引入profile
+const profiles = require("./routes/api/profiles");
+
+
 const db = require("./config/keys").mongoURI;
 
 // 使用body-parse中间件
@@ -32,6 +36,7 @@ require('./config/passport')(passport);
 
 // 使用router
 app.use("/api/users", users);
+app.use("/api/profiles", profiles);
 
 const port = process.env.PORT || 5000;
 
