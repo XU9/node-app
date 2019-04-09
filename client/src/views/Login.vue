@@ -23,7 +23,7 @@
 </template>
 
 <script>
-// import jwt_decode from "jwt-decode";
+import jwt_decode from "jwt-decode";
 
 export default {
   name: "login",
@@ -58,6 +58,10 @@ export default {
             const { token } = res.data;
             localStorage.setItem("eleToken", token);
 
+             // 解析token
+            const decode = jwt_decode(token);
+            console.log(decode);
+            
             // 页面跳转
             this.$router.push("/index");
           });
